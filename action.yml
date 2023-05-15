@@ -1,0 +1,22 @@
+name: 'Build and Deploy ML Project'
+description: 'Build and deploy your Edge Impulse project'
+author: 'Edge Impulse'
+inputs:
+  project_id:
+    description: 'Studio Project ID'
+    required: true
+    default: ''
+  api_key:
+    description: 'Studio Project API key'
+    required: true
+    default: ''
+  deployment_type:
+    description: 'Type of the deployment'
+    required: false
+    default: 'zip'
+outputs:
+  deployment_file_name:
+    description: 'Name of the downloaded deployment file'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

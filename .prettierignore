@@ -1,0 +1,6 @@
+dist/
+lib/
+node_modules/
+
+# Ignore all Markdown files
+*.md
