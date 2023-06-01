@@ -1,6 +1,9 @@
 name: 'Build and Deploy ML Project'
 description: 'Build and deploy your Edge Impulse project'
 author: 'Edge Impulse'
+branding:
+  icon: download
+  color: green
 inputs:
   project_id:
     description: 'Studio Project ID'
