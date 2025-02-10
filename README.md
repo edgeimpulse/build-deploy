@@ -75,7 +75,3 @@ Then set these values in your repository as [described here](https://docs.github
 ## Contributing
 
 Contributing is warmly welcome!
-
-## License
-
-The script and documentation are under Apache Licence 2.0
