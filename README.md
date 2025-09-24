@@ -71,7 +71,9 @@ The following outputs are available
 ## Setting Project ID and API Key from Edge Impulse Studio
 
 To get the project ID and API key from Edge Impulse Studio, go to your project and select `Dashboard` in the left pane. Then choose `Keys` on top and copy values as shown below
+
 ![Edge Impulse API Key and Project ID](./docs/studio-project.png)
+
 Then set these values in your repository as [described here](https://docs.github.com/en/actions/security-guides/encrypted-secrets#creating-encrypted-secrets-for-a-repository).
 
 ## Contributing
