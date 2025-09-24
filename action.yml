@@ -13,6 +13,14 @@ inputs:
     description: 'Studio Project API key'
     required: true
     default: ''
+  impulse_id:
+    description: 'Impulse ID'
+    required: false
+    default: ''
+  engine:
+    description: 'Engine type. Available options, see: https://docs.edgeimpulse.com/apis/studio/jobs/build-on-device-model#body-engine'
+    required: true
+    default: 'tflite-eon'
   deployment_type:
     description: 'Type of the deployment'
     required: false

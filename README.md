@@ -52,10 +52,12 @@ jobs:
 
 The following inputs are available
 
-| Name              | Required? | Description                                 |
-|-------------------|-----------|---------------------------------------------|
-| `project_id`      | YES       | Your project API key (see instruction below) |
-| `api_key`         | YES       | Your project number (see instruction below) |
+| Name              | Required? | Description                                                   |
+|-------------------|-----------|---------------------------------------------------------------|
+| `project_id`      | YES       | Your project API key (see instruction below)                  |
+| `api_key`         | YES       | Your project number (see instruction below)                   |
+| `impulse_id`      | NO        | Impulse ID. If this is unset then the default impulse is used |
+| `engine`          | NO        | Inferencing engine type. See [docs for details](https://docs.edgeimpulse.com/apis/studio/jobs/build-on-device-model#body-engine) |
 | `deployment_type` | NO        | Type of the deployment, default is `zip`    |
 
 ### Outputs

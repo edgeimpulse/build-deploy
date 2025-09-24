@@ -4,11 +4,13 @@ import fs from 'fs';
 
 const project_id = core.getInput('project_id');
 const api_key = core.getInput('api_key');
-const deploy_type = core.getInput('deployment_type');
+const deploy_type = core.getInput('deployment_type', { required: false }) || 'tflite-eon';
+const impulse_id = parseInt(core.getInput('impulse_id', { required: false })) || undefined;
+const engine = core.getInput('engine', { required: false }) || undefined;
 
 async function run(): Promise<void> {
   try {
-    const job_id = await build_model(project_id, deploy_type, api_key);
+    const job_id = await build_model(project_id, deploy_type, api_key, impulse_id, engine);
     console.log('Job ID is: ', job_id);
 
     await wait_for_job_completion(project_id, job_id, api_key);

@@ -16,7 +16,13 @@ type Download = {
   content: ArrayBuffer;
 };
 
-export async function build_model(project_id: string, deploy_type: string, api_key: string): Promise<string> {
+export async function build_model(
+  project_id: string,
+  deploy_type: string,
+  api_key: string,
+  impulse_id: number | undefined,
+  engine: string | undefined
+): Promise<string> {
   if (!project_id) {
     throw new Error('project_id parameter is missing or empty.');
   }
@@ -28,9 +34,10 @@ export async function build_model(project_id: string, deploy_type: string, api_k
   if (!api_key) {
     throw new Error('api_key parameter is missing or empty.');
   }
+
   const url = `https://studio.edgeimpulse.com/v1/api/${project_id}/jobs/build-ondevice-model`;
-  const params = { type: deploy_type };
-  const payload = { engine: 'tflite-eon' };
+  const params = { type: deploy_type, impulseId: impulse_id };
+  const payload = { engine: engine || 'tflite-eon' };
   const headers = {
     'x-api-key': api_key,
     'Accept': 'application/json',
