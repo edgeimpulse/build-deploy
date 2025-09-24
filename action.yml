@@ -29,5 +29,5 @@ outputs:
   deployment_file_name:
     description: 'Name of the downloaded deployment file'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
