@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Configure Build Deploy action
-      uses: edgeimpulse/build-deploy@v2
+      uses: actions/checkout@v4
       id: model-deployment
       with:
         project_id: ${{ secrets.EI_PROJECT_ID }}
@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Configure Build Deploy action
-      uses: edgeimpulse/build-deploy@v2
+      uses: actions/checkout@v4
       id: model-deployment
       with:
         project_id: ${{ secrets.EI_PROJECT_ID }}
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Configure Build Deploy action
-      uses: edgeimpulse/build-deploy@v2
+      uses: actions/checkout@v4
       id: model-deployment
       with:
         project_id: ${{ secrets.EI_PROJECT_ID }}
