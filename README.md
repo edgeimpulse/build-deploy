@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout firmware source code
-      uses: uses: actions/checkout@v3
+      uses: actions/checkout@v4.3.0
 
     - name: Build and deploy Edge Impulse Model
       uses: edgeimpulse/build-deploy@v1
@@ -44,6 +44,9 @@ jobs:
         mv temp/tflite-model/ .
         rm -rf "${{ steps.build-deploy.outputs.deployment_file_name }}"
         rm -rf temp/
+    - name: Build firmware
+      run: |
+        make -j
 ```
 
 ## Customizing
@@ -58,7 +61,7 @@ The following inputs are available
 | `api_key`         | YES       | Your project number (see instruction below)                   |
 | `impulse_id`      | NO        | Impulse ID. If this is unset then the default impulse is used |
 | `engine`          | NO        | Inferencing engine type. See [docs for details](https://docs.edgeimpulse.com/apis/studio/jobs/build-on-device-model#body-engine) |
-| `deployment_type` | NO        | Type of the deployment, default is `zip`    |
+| `deployment_type` | NO        | Type of the deployment, default is `zip`                      |
 | `model_type`      | NO        | Model type: `int8`, `float32`, `akida`                        |
 
 ### Outputs
