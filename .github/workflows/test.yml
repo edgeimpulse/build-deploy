@@ -10,17 +10,81 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.3.0
       - run: |
           npm install
       - run: |
           npm run all
   test: # make sure the action works on a clean machine without building
+  - name: Just build the action
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.3.0
       - uses: ./
         with:
           project_id: "123456"
           api_key: "ei_0000000000000000000000000000000000000000000000000000000000000000"
         continue-on-error: true
+
+  test-deployment-default-impulse:
+  - name: Test deployment with default params
+    runs-on: ubuntu-latest
+    steps:
+    - name: Configure Build Deploy action
+      uses: edgeimpulse/build-deploy@v2
+      id: model-deployment
+      with:
+        project_id: ${{ secrets.EI_PROJECT_ID }}
+        api_key: ${{ secrets.EI_API_KEY }}
+    - name: Extract the Model and SDK
+      # here, we are using output that contains the downloaded file name
+      run: |
+        mkdir temp
+        unzip -q "${{ steps.model-deployment.outputs.deployment_file_name }}" -d temp
+        rm -rf "${{ steps.model-deployment.outputs.deployment_file_name }}"
+        rm -rf temp/
+
+  test-selected-impulse:
+  - name: Test deployment with selected impulse
+    runs-on: ubuntu-latest
+    steps:
+    - name: Configure Build Deploy action
+      uses: edgeimpulse/build-deploy@v2
+      id: model-deployment
+      with:
+        project_id: ${{ secrets.EI_PROJECT_ID }}
+        api_key: ${{ secrets.EI_API_KEY }}
+        impulse_id: 3
+        deployment_type: nordic-thingy53
+    - name: Extract firmware archive
+      # here, we are using output that contains the downloaded file name
+      run: |
+        mkdir temp
+        unzip -q "${{ steps.model-deployment.outputs.deployment_file_name }}" -d temp
+        file temp/app_update.bin
+        file manifest.json
+        file net_core_app_update.bin
+        rm -rf "${{ steps.model-deployment.outputs.deployment_file_name }}"
+        rm -rf temp/
+
+  test-selected-impulse-engine:
+  - name: Test deployment with selected impulse, engine and model type
+    runs-on: ubuntu-latest
+    steps:
+    - name: Configure Build Deploy action
+      uses: edgeimpulse/build-deploy@v2
+      id: model-deployment
+      with:
+        project_id: ${{ secrets.EI_PROJECT_ID }}
+        api_key: ${{ secrets.EI_API_KEY }}
+        impulse_id: 3
+        deployment_type: raspberry-pi-pico2
+        engine: tflite
+        model_type: int8
+    - name: Extract firmware archive
+      # here, we are using output that contains the downloaded file name
+      run: |
+        mkdir temp
+        unzip -q "${{ steps.model-deployment.outputs.deployment_file_name }}" -d temp
+        file temp/ei_rp2350_firmware.uf2
+        rm -rf temp/
