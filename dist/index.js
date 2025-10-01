@@ -66,6 +66,7 @@ function build_model(project_id, deploy_type, api_key, impulse_id, engine, model
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         };
+        console.log('Building model with parameters:', { project_id, deploy_type, impulse_id, engine, modelType });
         try {
             const response = yield axios_1.default.post(url, payload, { headers, params });
             const body = response.data;
@@ -159,18 +160,34 @@ function wait_for_job_completion(project_id, job_id, api_key) {
     });
 }
 exports.wait_for_job_completion = wait_for_job_completion;
-function download_model(project_id, deploy_type, api_key) {
+function download_model(project_id, deploy_type, api_key, impulse_id, engine, modelType) {
     return __awaiter(this, void 0, void 0, function* () {
-        const url = `https://studio.edgeimpulse.com/v1/api/${project_id}/deployment/download`;
-        const params = { type: deploy_type };
+        if (!project_id) {
+            throw new Error('project_id parameter is missing or empty.');
+        }
+        if (!deploy_type) {
+            throw new Error('deploy_type parameter is missing or empty.');
+        }
+        if (!api_key) {
+            throw new Error('api_key parameter is missing or empty.');
+        }
+        let url = `https://studio.edgeimpulse.com/v1/api/${project_id}/deployment/download`;
         const headers = {
             'x-api-key': api_key,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         };
+        const queryParams = new URLSearchParams();
+        if (impulse_id)
+            queryParams.append('impulseId', impulse_id.toString());
+        if (engine)
+            queryParams.append('engine', engine);
+        if (modelType)
+            queryParams.append('modelType', modelType);
+        queryParams.append('type', deploy_type);
+        url += `?${queryParams.toString()}`;
         const response = yield axios_1.default.get(url, {
             headers,
-            params,
             responseType: 'arraybuffer'
         });
         const d = response.headers['content-disposition'];
@@ -240,7 +257,7 @@ function run() {
             console.log('Job ID is: ', job_id);
             yield (0, build_deploy_1.wait_for_job_completion)(project_id, job_id, api_key);
             console.log('Job', job_id, 'is finished');
-            const { fname, content } = yield (0, build_deploy_1.download_model)(project_id, deploy_type, api_key);
+            const { fname, content } = yield (0, build_deploy_1.download_model)(project_id, deploy_type, api_key, impulse_id, engine, model_type);
             console.log('Output file is ', content.byteLength, ' bytes');
             const bufferView = new Uint8Array(content);
             fs_1.default.writeFileSync(fname, bufferView);

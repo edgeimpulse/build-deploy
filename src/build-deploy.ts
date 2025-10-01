@@ -143,18 +143,42 @@ export async function wait_for_job_completion(project_id: string, job_id: string
   });
 }
 
-export async function download_model(project_id: string, deploy_type: string, api_key: string): Promise<Download> {
-  const url = `https://studio.edgeimpulse.com/v1/api/${project_id}/deployment/download`;
-  const params = { type: deploy_type };
+export async function download_model(
+  project_id: string,
+  deploy_type: string,
+  api_key: string,
+  impulse_id: number | undefined,
+  engine: string | undefined,
+  modelType: string | undefined
+): Promise<Download> {
+  if (!project_id) {
+    throw new Error('project_id parameter is missing or empty.');
+  }
+
+  if (!deploy_type) {
+    throw new Error('deploy_type parameter is missing or empty.');
+  }
+
+  if (!api_key) {
+    throw new Error('api_key parameter is missing or empty.');
+  }
+  let url = `https://studio.edgeimpulse.com/v1/api/${project_id}/deployment/download`;
   const headers = {
     'x-api-key': api_key,
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   };
 
+  const queryParams = new URLSearchParams();
+  if (impulse_id) queryParams.append('impulseId', impulse_id.toString());
+  if (engine) queryParams.append('engine', engine);
+  if (modelType) queryParams.append('modelType', modelType);
+  queryParams.append('type', deploy_type);
+
+  url += `?${queryParams.toString()}`;
+
   const response = await axios.get<ArrayBuffer>(url, {
     headers,
-    params,
     responseType: 'arraybuffer'
   });
   const d = response.headers['content-disposition'];

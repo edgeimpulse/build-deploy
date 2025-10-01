@@ -17,7 +17,7 @@ async function run(): Promise<void> {
     await wait_for_job_completion(project_id, job_id, api_key);
     console.log('Job', job_id, 'is finished');
 
-    const { fname, content } = await download_model(project_id, deploy_type, api_key);
+    const { fname, content } = await download_model(project_id, deploy_type, api_key, impulse_id, engine, model_type);
     console.log('Output file is ', content.byteLength, ' bytes');
     const bufferView = new Uint8Array(content);
 

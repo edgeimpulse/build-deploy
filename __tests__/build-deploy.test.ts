@@ -68,7 +68,7 @@ describe('Tests for EdgeImpulse Job Runner', () => {
     };
     mockedAxios.get.mockResolvedValue(mockResponse);
 
-    const download = await download_model('project_id', 'deploy_type', 'api_key');
+    const download = await download_model('project_id', 'deploy_type', 'api_key', undefined, undefined, undefined);
     expect(download.fname).toEqual('model.tflite');
     expect(download.content.byteLength).toEqual(8);
     expect(mockedAxios.get).toHaveBeenCalled();
