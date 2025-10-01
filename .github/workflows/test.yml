@@ -16,7 +16,7 @@ jobs:
       - run: |
           npm run all
   test: # make sure the action works on a clean machine without building
-  - name: Just build the action
+    name: Just build the action
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.3.0
@@ -27,7 +27,7 @@ jobs:
         continue-on-error: true
 
   test-deployment-default-impulse:
-  - name: Test deployment with default params
+    name: Test deployment with default params
     runs-on: ubuntu-latest
     steps:
     - name: Configure Build Deploy action
@@ -45,7 +45,7 @@ jobs:
         rm -rf temp/
 
   test-selected-impulse:
-  - name: Test deployment with selected impulse
+    name: Test deployment with selected impulse
     runs-on: ubuntu-latest
     steps:
     - name: Configure Build Deploy action
@@ -68,7 +68,7 @@ jobs:
         rm -rf temp/
 
   test-selected-impulse-engine:
-  - name: Test deployment with selected impulse, engine and model type
+    name: Test deployment with selected impulse, engine and model type
     runs-on: ubuntu-latest
     steps:
     - name: Configure Build Deploy action
