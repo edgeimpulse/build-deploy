@@ -33,7 +33,7 @@ jobs:
     - name: Checkout this repository to get the action
       uses: actions/checkout@v4
     - name: Configure Build Deploy action
-      uses: ./.github/actions/build-deploy
+      uses: ./
       id: model-deployment
       with:
         project_id: ${{ secrets.EI_PROJECT_ID }}
@@ -53,7 +53,7 @@ jobs:
     - name: Checkout this repository to get the action
       uses: actions/checkout@v4
     - name: Configure Build Deploy action
-      uses: ./.github/actions/build-deploy
+      uses: ./
       id: model-deployment
       with:
         project_id: ${{ secrets.EI_PROJECT_ID }}
@@ -78,7 +78,7 @@ jobs:
     - name: Checkout this repository to get the action
       uses: actions/checkout@v4
     - name: Configure Build Deploy action
-      uses: ./.github/actions/build-deploy
+      uses: ./
       id: model-deployment
       with:
         project_id: ${{ secrets.EI_PROJECT_ID }}
