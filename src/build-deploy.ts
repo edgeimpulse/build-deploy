@@ -37,7 +37,10 @@ export async function build_model(
   }
 
   const url = `https://studio.edgeimpulse.com/v1/api/${project_id}/jobs/build-ondevice-model`;
-  const params = { type: deploy_type, impulseId: impulse_id };
+  const params = {
+    type: deploy_type,
+    impulseId: impulse_id
+  };
   const payload = {
     engine,
     modelType

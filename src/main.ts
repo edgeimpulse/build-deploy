@@ -2,8 +2,8 @@ import * as core from '@actions/core';
 import { build_model, wait_for_job_completion, download_model } from './build-deploy';
 import fs from 'fs';
 
-const project_id = core.getInput('project_id');
-const api_key = core.getInput('api_key');
+const project_id = core.getInput('project_id', { required: true });
+const api_key = core.getInput('api_key', { required: true });
 const deploy_type = core.getInput('deployment_type', { required: false }) || 'tflite-eon';
 const impulse_id = parseInt(core.getInput('impulse_id', { required: false })) || undefined;
 const engine = core.getInput('engine', { required: false }) || undefined;
