@@ -30,8 +30,10 @@ jobs:
     name: Test deployment with default params
     runs-on: ubuntu-latest
     steps:
-    - name: Configure Build Deploy action
+    - name: Checkout this repository to get the action
       uses: actions/checkout@v4
+    - name: Configure Build Deploy action
+      uses: ./.github/actions/build-deploy
       id: model-deployment
       with:
         project_id: ${{ secrets.EI_PROJECT_ID }}
@@ -48,8 +50,10 @@ jobs:
     name: Test deployment with selected impulse
     runs-on: ubuntu-latest
     steps:
-    - name: Configure Build Deploy action
+    - name: Checkout this repository to get the action
       uses: actions/checkout@v4
+    - name: Configure Build Deploy action
+      uses: ./.github/actions/build-deploy
       id: model-deployment
       with:
         project_id: ${{ secrets.EI_PROJECT_ID }}
@@ -71,8 +75,10 @@ jobs:
     name: Test deployment with selected impulse, engine and model type
     runs-on: ubuntu-latest
     steps:
-    - name: Configure Build Deploy action
+    - name: Checkout this repository to get the action
       uses: actions/checkout@v4
+    - name: Configure Build Deploy action
+      uses: ./.github/actions/build-deploy
       id: model-deployment
       with:
         project_id: ${{ secrets.EI_PROJECT_ID }}
