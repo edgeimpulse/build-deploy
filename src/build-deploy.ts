@@ -51,6 +51,7 @@ export async function build_model(
     'Content-Type': 'application/json'
   };
 
+  console.log('Building model with parameters:', { project_id, deploy_type, impulse_id, engine, modelType });
   try {
     const response: AxiosResponse<Job> = await axios.post(url, payload, { headers, params });
     const body = response.data;
