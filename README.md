@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout firmware source code
-      uses: actions/checkout@v4.3.0
+      uses: actions/checkout@v4
 
     - name: Build and deploy Edge Impulse Model
       uses: edgeimpulse/build-deploy@v1
