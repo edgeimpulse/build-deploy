@@ -21,7 +21,8 @@ export async function build_model(
   deploy_type: string,
   api_key: string,
   impulse_id: number | undefined,
-  engine: string | undefined
+  engine: string | undefined,
+  modelType: string | undefined
 ): Promise<string> {
   if (!project_id) {
     throw new Error('project_id parameter is missing or empty.');
@@ -37,7 +38,10 @@ export async function build_model(
 
   const url = `https://studio.edgeimpulse.com/v1/api/${project_id}/jobs/build-ondevice-model`;
   const params = { type: deploy_type, impulseId: impulse_id };
-  const payload = { engine: engine || 'tflite-eon' };
+  const payload = {
+    engine,
+    modelType
+  };
   const headers = {
     'x-api-key': api_key,
     'Accept': 'application/json',

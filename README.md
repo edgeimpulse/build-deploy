@@ -59,6 +59,7 @@ The following inputs are available
 | `impulse_id`      | NO        | Impulse ID. If this is unset then the default impulse is used |
 | `engine`          | NO        | Inferencing engine type. See [docs for details](https://docs.edgeimpulse.com/apis/studio/jobs/build-on-device-model#body-engine) |
 | `deployment_type` | NO        | Type of the deployment, default is `zip`    |
+| `model_type`      | NO        | Model type: `int8`, `float32`, `akida`                        |
 
 ### Outputs
 
