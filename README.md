@@ -1,6 +1,5 @@
-<p align="center">
-  <a href="https://github.com/edgeimpulse/build-deploy/actions"><img alt="build-deploy status" src="https://github.com/edgeimpulse/build-deploy/workflows/build-test/badge.svg"></a>
-</p>
+[![Integration Tests](https://github.com/edgeimpulse/build-deploy/actions/workflows/test.yml/badge.svg)](https://github.com/edgeimpulse/build-deploy/actions/workflows/test.yml)
+[![CodeQL](https://github.com/edgeimpulse/build-deploy/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/edgeimpulse/build-deploy/actions/workflows/github-code-scanning/codeql)
 
 # Edge Impulse Model Build & Deploy
 
