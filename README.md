@@ -26,7 +26,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Build and deploy Edge Impulse Model
-      uses: edgeimpulse/build-deploy@v1
+      uses: edgeimpulse/build-deploy@v2
       # assing the ID so that you can use the output later
       id: build-deploy
       with:
