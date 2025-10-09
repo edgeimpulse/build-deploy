@@ -13,13 +13,25 @@ inputs:
     description: 'Studio Project API key'
     required: true
     default: ''
+  impulse_id:
+    description: 'Impulse ID'
+    required: false
+    default: ''
+  engine:
+    description: 'Engine type. Available options, see: https://docs.edgeimpulse.com/apis/studio/jobs/build-on-device-model#body-engine'
+    required: true
+    default: 'tflite-eon'
   deployment_type:
     description: 'Type of the deployment'
     required: false
     default: 'zip'
+  model_type:
+    description: 'Model type. Available options, see: https://docs.edgeimpulse.com/apis/studio/jobs/build-on-device-model#body-modeltype'
+    required: false
+    default: 'float32'
 outputs:
   deployment_file_name:
     description: 'Name of the downloaded deployment file'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'

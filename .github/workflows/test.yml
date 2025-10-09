@@ -1,26 +1,85 @@
-name: 'build-test'
+name: 'Integration Tests'
+permissions:
+  contents: read
 on: # rebuild any PRs and main branch changes
   pull_request:
   push:
     branches:
       - main
-      - 'releases/*'
 
 jobs:
-  build: # make sure build/ci work properly
+
+  build:
+    name: Build the project and run all unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
-          npm install
-      - run: |
+          npm ci
           npm run all
-  test: # make sure the action works on a clean machine without building
+
+  test-deployment-default-impulse:
+    name: Test deployment with default params
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./
-        with:
-          project_id: "123456"
-          api_key: "ei_0000000000000000000000000000000000000000000000000000000000000000"
-        continue-on-error: true
+    - name: Checkout this repository to get the action
+      uses: actions/checkout@v4
+    - name: Configure Build Deploy action
+      uses: ./
+      id: model-deployment
+      with:
+        project_id: ${{ secrets.EI_PROJECT_ID }}
+        api_key: ${{ secrets.EI_API_KEY }}
+    - name: Extract the Model and SDK
+      run: |
+        mkdir temp
+        unzip -q "${{ steps.model-deployment.outputs.deployment_file_name }}" -d temp
+        rm -rf "${{ steps.model-deployment.outputs.deployment_file_name }}"
+        rm -rf temp/
+
+  test-selected-impulse:
+    name: Test deployment with selected impulse
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout this repository to get the action
+      uses: actions/checkout@v4
+    - name: Configure Build Deploy action
+      uses: ./
+      id: model-deployment
+      with:
+        project_id: ${{ secrets.EI_PROJECT_ID }}
+        api_key: ${{ secrets.EI_API_KEY }}
+        impulse_id: 3
+        deployment_type: nordic-thingy53
+    - name: Extract firmware archive
+      run: |
+        mkdir temp
+        unzip -q "${{ steps.model-deployment.outputs.deployment_file_name }}" -d temp
+        file temp/app_update.bin
+        file manifest.json
+        file net_core_app_update.bin
+        rm -rf "${{ steps.model-deployment.outputs.deployment_file_name }}"
+        rm -rf temp/
+
+  test-selected-impulse-engine:
+    name: Test deployment with selected impulse, engine and model type
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout this repository to get the action
+      uses: actions/checkout@v4
+    - name: Configure Build Deploy action
+      uses: ./
+      id: model-deployment
+      with:
+        project_id: ${{ secrets.EI_PROJECT_ID }}
+        api_key: ${{ secrets.EI_API_KEY }}
+        impulse_id: 3
+        deployment_type: raspberry-pi-pico2
+        engine: tflite
+        model_type: int8
+    - name: Extract firmware archive
+      run: |
+        mkdir temp
+        unzip -q "${{ steps.model-deployment.outputs.deployment_file_name }}" -d temp
+        file temp/ei_rp2350_firmware.uf2
+        rm -rf temp/

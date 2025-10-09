@@ -16,7 +16,14 @@ type Download = {
   content: ArrayBuffer;
 };
 
-export async function build_model(project_id: string, deploy_type: string, api_key: string): Promise<string> {
+export async function build_model(
+  project_id: string,
+  deploy_type: string,
+  api_key: string,
+  impulse_id: number | undefined,
+  engine: string | undefined,
+  modelType: string | undefined
+): Promise<string> {
   if (!project_id) {
     throw new Error('project_id parameter is missing or empty.');
   }
@@ -28,15 +35,23 @@ export async function build_model(project_id: string, deploy_type: string, api_k
   if (!api_key) {
     throw new Error('api_key parameter is missing or empty.');
   }
+
   const url = `https://studio.edgeimpulse.com/v1/api/${project_id}/jobs/build-ondevice-model`;
-  const params = { type: deploy_type };
-  const payload = { engine: 'tflite-eon' };
+  const params = {
+    type: deploy_type,
+    impulseId: impulse_id
+  };
+  const payload = {
+    engine,
+    modelType
+  };
   const headers = {
     'x-api-key': api_key,
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   };
 
+  console.log('Building model with parameters:', { project_id, deploy_type, impulse_id, engine, modelType });
   try {
     const response: AxiosResponse<Job> = await axios.post(url, payload, { headers, params });
     const body = response.data;
@@ -128,18 +143,42 @@ export async function wait_for_job_completion(project_id: string, job_id: string
   });
 }
 
-export async function download_model(project_id: string, deploy_type: string, api_key: string): Promise<Download> {
-  const url = `https://studio.edgeimpulse.com/v1/api/${project_id}/deployment/download`;
-  const params = { type: deploy_type };
+export async function download_model(
+  project_id: string,
+  deploy_type: string,
+  api_key: string,
+  impulse_id: number | undefined,
+  engine: string | undefined,
+  modelType: string | undefined
+): Promise<Download> {
+  if (!project_id) {
+    throw new Error('project_id parameter is missing or empty.');
+  }
+
+  if (!deploy_type) {
+    throw new Error('deploy_type parameter is missing or empty.');
+  }
+
+  if (!api_key) {
+    throw new Error('api_key parameter is missing or empty.');
+  }
+  let url = `https://studio.edgeimpulse.com/v1/api/${project_id}/deployment/download`;
   const headers = {
     'x-api-key': api_key,
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   };
 
+  const queryParams = new URLSearchParams();
+  if (impulse_id) queryParams.append('impulseId', impulse_id.toString());
+  if (engine) queryParams.append('engine', engine);
+  if (modelType) queryParams.append('modelType', modelType);
+  queryParams.append('type', deploy_type);
+
+  url += `?${queryParams.toString()}`;
+
   const response = await axios.get<ArrayBuffer>(url, {
     headers,
-    params,
     responseType: 'arraybuffer'
   });
   const d = response.headers['content-disposition'];
